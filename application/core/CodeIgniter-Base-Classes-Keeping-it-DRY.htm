@@ -1,0 +1,176 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1"></head><body><div class="post">
+
+	<h1>CodeIgniter Base Classes: Keeping it DRY</h1>
+
+	<div class="meta">
+		<div class="date">Posted: <span>2010-02-08</span></div>
+		
+		
+				<div class="category">
+			Category: 
+			<span><a href="http://philsturgeon.co.uk/blog/category/codeigniter">CodeIgniter</a></span>
+		</div>
+					</div>
+
+	<div class="body">
+		<p>
+	Most applications in CodeIgniter will have various types of pages. The 
+public frontend, a backend admin panel, perhaps some sort of moderator 
+or staff panel, etc. Logic for these types of pages is normally copied 
+between all of their different Controllers which means, for 
+example,&nbsp; if the way the admin area protection is handled is 
+changed there will be lots of Controllers to change and test. This logic
+ can instead be shared by some creative extending of the Controller 
+class to create custom Base Controllers like Public_Controller, 
+Admin_Controller, etc.</p>
+<h4>
+	WTF are you talking about?</h4>
+<p>
+	The idea is that most of your controllers share something in common 
+with each other. For example: All admin controllers need to make sure a 
+logged in user is present and that they are an administrator. A public 
+controller may want to load a theme for your application and load 
+default user data, navigation links or anything else frontend related.</p>
+<h4>
+	Wicked! How?</h4>
+<p>
+	The first step is to create these Base Controllers.</p>
+<h5>
+	application/core/MY_Controller.php</h5>
+<p>
+	MY_Controller is a basic core library extension. Whenever you create a 
+class with the MY_ prefix the CodeIgniter Loader class will load this 
+after loading the core library, allowing your code to <a class="link-subtle" href="http://codeigniter.com/user_guide/general/creating_libraries.html" target="_blank">replace/extend the core library</a>. We won't be replacing anything, but we will be adding to it.</p>
+<pre class="code php">class MY_Controller extends CI_Controller
+{
+ function __construct()
+ {
+  parent::__construct();
+
+  $user_id = $this-&gt;session-&gt;userdata('user_id');
+         $this-&gt;data['user'] = $this-&gt;user_lib-&gt;get($user_id);
+        }
+}</pre>
+<p>
+	All we have done here is create a base class that all of our 
+Controllers and "controller types" will inherit. Anything we put in here
+ and assign to $this will be available to anything that extends this 
+class.</p>
+<h5>
+	application/core/Public_Controller.php</h5>
+<pre class="code php">class Public_Controller extends MY_Controller
+{
+&nbsp;&nbsp; &nbsp;function __construct()
+&nbsp;&nbsp; &nbsp;{
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;parent::__construct();
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;if($this-&gt;config-&gt;item('site_open') === FALSE)
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;{
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;show_error('Sorry the site is shut for now.');
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;}
+
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;// If the user is using a mobile, use a mobile theme
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;$this-&gt;load-&gt;library('user_agent');
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;if( $this-&gt;agent-&gt;is_mobile() )
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;{
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;/*
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * Use my template library to set a theme for your staff
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; *&nbsp;&nbsp;&nbsp;&nbsp; http://philsturgeon.co.uk/code/codeigniter-template
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; */
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;$this-&gt;template-&gt;set_theme('mobile');
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;}
+&nbsp;&nbsp; &nbsp;}
+}</pre>
+<p>
+	Public_Controller is pretty much the same, but you can see we have some
+ frontend-only related code here. The first statement will check to see 
+if the site is currently open using a theoretical settings library that 
+your application might habe and shows an error if the site is closed. 
+The next statement uses the user agent library to offer a mobile version
+ of the site to anyone on a mobile device.</p>
+<h5>
+	application/core/Admin_Controller.php</h5>
+<pre class="code php">class Admin_Controller extends MY_Controller
+{
+&nbsp;&nbsp; &nbsp;function __construct()
+&nbsp;&nbsp; &nbsp;{
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;parent::__construct();
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;if($this-&gt;data['user']['group'] !== 'admin')
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;{
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;show_error('Shove off, this is for admins.');
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;}
+&nbsp;&nbsp; &nbsp;}
+}</pre>
+<p>
+	Admin_Controller is again fairly similar. It uses a generic sort of 
+user level checking to see if the user is an admin and shows an error if
+ not.</p>
+<h5>
+	Connecting Base Controllers to Controllers</h5>
+<p>
+	While there are a few ways to do this, the easiest is to use PHP 5's 
+wonderful __autoload() magic function. By placing this at the bottom of 
+your config.php you can make it load early enough to run before the 
+Controller and it will be somewhere that wont get overridden on upgrade.</p>
+<pre class="code php">/*
+| -------------------------------------------------------------------
+|  Native Auto-load
+| -------------------------------------------------------------------
+| 
+| Nothing to do with cnfig/autoload.php, this allows PHP autoload to work
+| for base controllers and some third-party libraries.
+|
+*/
+function __autoload($class)
+{
+ if(strpos($class, 'CI_') !== 0)
+ {
+  @include_once( APPPATH . 'core/'. $class . EXT );
+ }
+}</pre>
+<p>
+	Now the Base Controllers are being made and loaded, you need to inheriting them in your Controllers. So instead of the usual...</p>
+<pre class="code php">class Blog extends CI_Controller
+{
+&nbsp;&nbsp;&nbsp; function __construct()
+&nbsp;&nbsp;&nbsp; {
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;parent::__construct();
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;// Whatever
+        $data['stuff'] = $whatever;
+&nbsp;&nbsp;&nbsp; }
+}
+</pre>
+<p>
+	use...</p>
+<pre class="code php">class Blog extends Public_Controller
+{
+&nbsp;&nbsp;&nbsp; function __construct()
+&nbsp;&nbsp;&nbsp; {
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;parent::__construct();
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;// Whatever
+        $this-&gt;data['stuff'] = $whatever;
+&nbsp;&nbsp;&nbsp; }
+}</pre>
+<p>
+	And there you have it! In your Controller you'll have all your data set
+ in MY_Controller or other Base Controllers available in $this-&gt;data,
+ so pass that to your views and it will be available. You can also use 
+$this-&gt;load-&gt;vars('foo', $bar) in your Base Controllers to set 
+values that are only available in your views.</p>
+<h4>
+	Summary</h4>
+<p>
+	Base Controllers are a nice simple way to give you global data, logic 
+and shared code which can be specific to a certain part of your site. 
+They can do all sorts of crazy stuff which I will leave for you to think
+ about.</p>
+<p>
+	Please post your most inventive uses in the comments section.</p>	</div>
+	
+</div>
+
+	
+Fatal error: Class 'Setting' not found in /var/www/system/cms/modules/comments/helpers/comments_helper.php on line 41
+</body></html>

@@ -1,0 +1,96 @@
+{% extends "templates/bootstrap.html.twig" %}
+
+{% block title %}{{ page_title }}{% endblock %}
+
+{% block content %}
+
+	<!-- Subhead
+  ================================================== -->
+  <header class="jumbotron subhead" id="overview">
+    <div class="container">
+      <h1>{{ page_title }}</h1>
+      <p class="lead">Fundamental HTML elements styled and enhanced with extensible classes.</p>
+    </div>
+  </header>
+
+  <div class="container">
+
+    <div class="row">
+      <div class="span3 bs-docs-sidebar">
+        <ul class="nav nav-list bs-docs-sidenav">
+          <li>{{ anchor('demo/demo_form#forms', '<i class="icon-chevron-right"></i> Create') | raw }}</li>
+          <li>{{ anchor('demo/demo_list#tables', '<i class="icon-chevron-right"></i> List') | raw }}</li>
+        </ul>
+      </div>
+      <div class="span9">
+
+          <!-- Forms
+          ================================================== -->
+          <section id="forms">
+            <div class="page-header">
+              <h1>Forms</h1>
+            </div>
+
+            <h2>User form</h2>
+            <p>Here you can {{ anchor('demo/demo_list', 'list') | raw }} all users.</p>
+
+            {% if form_errors %}
+            <div class="alert alert-error">
+              <button type="button" class="close" data-dismiss="alert">×</button>
+              <h4>Warning!</h4> 
+              <br>
+              {{ form_errors | raw }}
+            </div>
+            {% endif %}
+            {{ form_open('demo/demo_form#forms', {'class': 'bs-docs-example form-horizontal'}) | raw }}
+            <div class="control-group">
+              <label class="control-label" for="name">Name</label>
+              <div class="controls">
+                <input type="text" id="name" name="name" value="{{ post_data.name }}" placeholder="Name">
+              </div>
+            </div>
+            <div class="control-group">
+              <label class="control-label" for="username">Username</label>
+              <div class="controls">
+                <input type="text" id="username" name="username" value="{{ post_data.username }}" placeholder="Username">
+              </div>
+            </div>
+            <div class="control-group">
+              <label class="control-label" for="email">Email</label>
+              <div class="controls">
+                <input type="text" id="email" name="email" value="{{ post_data.email }}" placeholder="Email">
+              </div>
+            </div>
+            <div class="control-group">
+              <label class="control-label" for="password">Password</label>
+              <div class="controls">
+                <input type="password" id="password" name="password" placeholder="Password">
+              </div>
+            </div>
+            <div class="control-group">
+              <label class="control-label" for="confirm_password">Confirm password</label>
+              <div class="controls">
+                <input type="password" id="confirm_password" name="confirm_password" placeholder="Confirm password">
+              </div>
+            </div>
+            <div class="control-group">
+              <label class="control-label" for="group">Group</label>
+              <div class="controls">
+                {{  form_dropdown('group', groups, post_data.group) | raw }}
+              </div>
+            </div>
+
+            <div class="control-group">
+              <div class="controls">
+                <button type="submit" class="btn btn-large btn-primary">Register</button>
+              </div>
+            </div>
+            {{ form_close() | raw }}
+
+          </section>
+      </div>
+    </div>
+
+  </div>
+
+  {% endblock %}

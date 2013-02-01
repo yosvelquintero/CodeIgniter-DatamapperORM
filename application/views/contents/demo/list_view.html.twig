@@ -1,0 +1,77 @@
+{% extends "templates/bootstrap.html.twig" %}
+
+{% block title %}{{ page_title }}{% endblock %}
+
+{% block content %}
+
+	<!-- Subhead
+  ================================================== -->
+  <header class="jumbotron subhead" id="overview">
+    <div class="container">
+      <h1>{{ page_title }}</h1>
+      <p class="lead">Fundamental HTML elements styled and enhanced with extensible classes.</p>
+    </div>
+  </header>
+
+  <div class="container">
+
+    <div class="row">
+      <div class="span3 bs-docs-sidebar">
+        <ul class="nav nav-list bs-docs-sidenav">
+          <li>{{ anchor('demo/demo_form#forms', '<i class="icon-chevron-right"></i> Create') | raw }}</li>
+          <li>{{ anchor('demo/demo_list#tables', '<i class="icon-chevron-right"></i> List') | raw }}</li>
+        </ul>
+      </div>
+      <div class="span9">
+
+       <!-- Tables
+       ================================================== -->
+       <section id="tables">
+        <div class="page-header">
+          <h1>Tables</h1>
+        </div>
+
+        <h2>Users list</h2>
+        <p>Here you can {{ anchor('demo/demo_form', 'create') | raw }} a new user.</p>
+        <div class="bs-docs-example">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Group</th>
+                <!-- <th>Created</th>
+                <th>Updated</th> -->
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for user in users %}
+              <tr>
+                <td>{{ user.id | e }}</td>
+                <td>{{ user.name | e }}</td>
+                <td>{{ user.username | e }}</td>
+                <td>{{ user.email | e }}</td>
+                <td>{{ user.group_name | e }}</td>
+                  <!-- <td>{{ user.created | e }}</td>
+                  <td>{{ user.updated | e }}</td> -->
+                  <td class="center">
+                    <a href="#" rel="tooltip" data-placement="top" title="Edit"><i class="icon-pencil"></i></a>&nbsp;&nbsp;&nbsp;<a
+                    href="#" rel="tooltip" data-placement="top" title="Delete"><i class="icon-trash"></i></a>
+                  </td>
+                </tr>
+                {% else %}
+                <tr><td><em>No user found!</em></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </div>
+    </div>
+
+  </div>
+
+  {% endblock %}

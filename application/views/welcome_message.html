@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}{{ site_title }}{% endblock %}
+
+{% block head %}
+{{ parent() }}
+<style type="text/css">
+.important { color: #336699; }
+</style>
+{% endblock %}
+
+{% block content %}
+	<h1>Welcome to CodeIgniter!</h1>
+
+	<div id="body">
+		<p>The page you are looking at is being generated dynamically by CodeIgniter.</p>
+
+		<h3>Here is some code examples</h3>
+
+		<p>{{ date | date('d.M.Y') }}</p>
+
+		{{ errors | raw }}
+
+		<h3>Groups list</h3>
+		<ul>
+		{% for group in groups %}
+			<li>{{ group.name }}</li>
+		{% endfor %}
+		</ul>
+
+		<h3>Here the user</h3>
+
+		{{ user.name | e }}<br>
+		{{ user.email }}<br>
+		{{ user.username }}<br>
+		{{ user.password }}<br>
+		{{ user.group_name }}
+
+		<p>{{ img('assets/ico/apple-touch-icon-72-precomposed.png') | raw }}</p>
+
+		
+
+		<p class="important">Hope you like it:)</p>
+
+	</div>
+{% endblock %}
