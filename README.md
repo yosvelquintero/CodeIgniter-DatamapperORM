@@ -1,0 +1,4 @@
+ci
+==
+
+CodeIgniter basic application
