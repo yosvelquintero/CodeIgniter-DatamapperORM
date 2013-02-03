@@ -1,0 +1,4 @@
+/application/logs/log-*.php
+/application/logs/!index.html
+/application/cache/*
+/application/cache/!index.html
