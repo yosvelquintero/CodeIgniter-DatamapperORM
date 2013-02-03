@@ -2,4 +2,6 @@
 */logs/log-*.php
 */logs/!index.html
 */cache/*
+*/cache/datamapper/*
+*/cache/twig/*
 */cache/!index.html
