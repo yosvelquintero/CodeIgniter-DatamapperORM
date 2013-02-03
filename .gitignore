@@ -1,4 +1,6 @@
 /application/logs/log-*.php
 /application/logs/!index.html
 /application/cache/*
+/application/cache/twig/!index.html
+/application/cache/datamapper/!index.html
 /application/cache/!index.html
