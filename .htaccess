@@ -2,7 +2,7 @@
     RewriteEngine On
 
     # here to /Codeigniter/ because of wamp server
-    RewriteBase /ciproject/
+    RewriteBase /cigithub/
 
     #Removes access to the system folder by users.
     #Additionally this will allow you to create a System.php controller,

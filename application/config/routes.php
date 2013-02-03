@@ -41,6 +41,9 @@
 $route['default_controller'] = "home";
 $route['404_override'] = 'error_page';
 
+$route['users/(:num)/delete'] = "users/delete/$1";
+$route['users/(:num)/edit'] = "users/edit/$1";
+
 
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */

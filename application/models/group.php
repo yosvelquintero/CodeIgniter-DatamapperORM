@@ -123,8 +123,6 @@ class Group extends DataMapper {
 
             return array_combine($ids, $names);
         }
-
-        //return;
     }
 
 	// --------------------------------------------------------------------

@@ -1,0 +1,89 @@
+{% extends "templates/bootstrap.html.twig" %}
+
+{% block title %}{{ page_title }}{% endblock %}
+
+{% block content %}
+
+	<!-- Subhead
+  ================================================== -->
+  <header class="jumbotron subhead" id="overview">
+    <div class="container">
+      <h1>{{ page_title }}</h1>
+      <p class="lead">Fundamental HTML elements styled and enhanced with extensible classes.</p>
+    </div>
+  </header>
+
+  <div class="container">
+
+    <div class="row">
+
+       <!-- Tables
+       ================================================== -->
+       <section id="tables">
+        <div class="page-header">
+          <h1>Tables</h1>
+        </div>
+
+        <h2>Users list</h2>
+        <p>Here you can {{ anchor('users/create', 'create') | raw }} a new user.</p>
+
+        {% if message %}
+        <div class="alert alert-success">
+          <button type="button" class="close" data-dismiss="alert">×</button>
+          <h4>Well done!</h4> 
+          <br>
+          {{ message | raw }}
+        </div>
+        {% endif %}
+
+        <div class="bs-docs-example">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Group</th>
+                <th>Created</th>
+                <th>Updated</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for user in users %}
+              <tr>
+                <td>{{ user.id | e }}</td>
+                <td>{{ user.name | e }}</td>
+                <td>{{ user.username | e }}</td>
+                <td>{{ user.email | e }}</td>
+                <td>{{ user.group_name | e }}</td>
+                <td>{{ user.created | date('Y.m.d h:i') | e }}</td>
+                {% if (user.updated != '0000-00-00 00:00:00') %}
+                  <td>{{ user.updated | date('Y.m.d h:i') | e }}</td>
+                {% else %}
+                  <td>&nbsp;</td>
+                {% endif %}
+
+                <td class="center tooltip-demo">
+                  <a data-placement="left" rel="tooltip" data-original-title="Edit {{ ucfirst(user.username) | raw }}" href="{{ base_url('users/' ~ user.id ~ '/edit') }}"><i class="icon-pencil"></i></a>
+                  &nbsp;&nbsp;&nbsp;
+                  <a data-placement="left" rel="tooltip" data-original-title="Delete {{ ucfirst(user.username) | raw }}" href="{{ base_url('users/' ~ user.id ~ '/delete') }}"><i class="icon-trash"></i></a>
+                </td>
+              </tr>
+              {% else %}
+              <tr><td><em>No user found!</em></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+
+        <div class="pagination pull-right">
+          {{ pagination_links | raw }}
+        </div>
+
+      </section>
+    </div>
+  </div>
+
+  {% endblock %}

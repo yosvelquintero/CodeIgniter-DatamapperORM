@@ -24,4 +24,4 @@ $config['bootstrap']['base_css'] = 'Base CSS';
 $config['bootstrap']['components'] = 'Components';
 $config['bootstrap']['javascript'] = 'JavaScript';
 
-$config['bootstrap']['cruds'] = 'CRUDs';
+$config['bootstrap']['users'] = 'Users';
