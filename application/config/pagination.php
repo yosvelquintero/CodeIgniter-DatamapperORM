@@ -31,10 +31,10 @@ $config['cur_tag_close'] = '</a></li>';
 
 $config['per_page']         = 8; // rows per page..
 $config['num_links']        = 4;
-$config['first_link']       = 'First';
-$config['prev_link']        = 'Prev';
-$config['next_link']        = 'Next';
-$config['last_link']        = 'End';
+$config['first_link']       = 'Inicio';
+$config['prev_link']        = 'Anterior';
+$config['next_link']        = 'Sigiente';
+$config['last_link']        = 'Fin';
 
 
 $config['display_pages'] = TRUE;

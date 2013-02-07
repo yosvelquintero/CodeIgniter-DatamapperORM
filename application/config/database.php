@@ -45,7 +45,15 @@
 | the active record class
 */
 
-$active_group = 'default';
+if (preg_match("/localhost/", $_SERVER['SERVER_NAME']))
+{
+  $active_group = 'default';
+}
+elseif (preg_match("/mzconnection/", $_SERVER['SERVER_NAME'])) 
+{
+  $active_group = 'mzconnection';
+}
+
 $active_record = TRUE;
 
 $db['default']['hostname'] = 'localhost';
@@ -63,6 +71,23 @@ $db['default']['dbcollat'] = 'utf8_general_ci';
 $db['default']['swap_pre'] = '';
 $db['default']['autoinit'] = TRUE;
 $db['default']['stricton'] = FALSE;
+
+
+$db['mzconnection']['hostname'] = 'localhost';
+$db['mzconnection']['username'] = 'mzcon_inuser';
+$db['mzconnection']['password'] = '5qas4652924b1bc172cc79df27b56075e15';
+$db['mzconnection']['database'] = 'mzconnec_informes';
+$db['mzconnection']['dbdriver'] = 'mysql';
+$db['mzconnection']['dbprefix'] = '';
+$db['mzconnection']['pconnect'] = TRUE;
+$db['mzconnection']['db_debug'] = TRUE;
+$db['mzconnection']['cache_on'] = FALSE;
+$db['mzconnection']['cachedir'] = '';
+$db['mzconnection']['char_set'] = 'utf8';
+$db['mzconnection']['dbcollat'] = 'utf8_general_ci';
+$db['mzconnection']['swap_pre'] = '';
+$db['mzconnection']['autoinit'] = TRUE;
+$db['mzconnection']['stricton'] = FALSE;
 
 
 /* End of file database.php */

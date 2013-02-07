@@ -11,7 +11,7 @@ class Twig
 	 * Constructor
 	 *
 	 */
-	function __construct($debug = false)
+	function __construct($debug = TRUE)
 	{
 		$this->CI =& get_instance();
 		$this->CI->config->load('twig');
@@ -35,13 +35,17 @@ class Twig
 			'dump' => TRUE
  		));
 
- 		$this->_twig->addExtension(new Twig_Extension_Debug());
+		if ($debug)
+			$this->_twig->addExtension(new Twig_Extension_Debug());
 		
 		foreach(get_defined_functions() as $functions) {
 			foreach($functions as $function) {
 				$this->_twig->addFunction($function, new Twig_Function_Function($function));
 			}
 		}
+
+		$this->_twig->addGlobal('ci', $this->CI); // Add CI instance alias
+		//$this->_twig->addFunction('validation_errors', new Twig_Function_Function('validation_errors'));
 	}
 
 	public function add_function($name) 

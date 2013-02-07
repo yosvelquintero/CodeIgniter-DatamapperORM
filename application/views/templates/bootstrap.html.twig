@@ -3,7 +3,7 @@
 <head>
 	{% block head %}
 	<meta charset=utf-8 />
-	<title>{% block title %}{% endblock %} - CI & Bootstrap based application</title>
+	<title>{% block title %}{% endblock %} - {{ ci.config.item('app_name') }}</title>
 
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="description" content="">
@@ -27,10 +27,10 @@
       <link rel="apple-touch-icon-precomposed" sizes="72x72" href="{{ base_url() }}assets/ico/apple-touch-icon-72-precomposed.png">
       <link rel="apple-touch-icon-precomposed" href="{{ base_url() }}assets/ico/apple-touch-icon-57-precomposed.png">
       {% endblock %}
-  </head>
-  <body data-spy="scroll" data-target=".bs-docs-sidebar">
+    </head>
+    <body data-spy="scroll" data-target=".bs-docs-sidebar">
 
-  	<div class="navbar navbar-inverse navbar-fixed-top">
+     <div class="navbar navbar-inverse navbar-fixed-top">
       <div class="navbar-inner">
         <div class="container">
           <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
@@ -38,26 +38,40 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          	{{ anchor('home', 'CI & Bootstrap', {'class':'brand'}) | raw }}
+          {{ anchor('home', ci.config.item('app_name'), {'class':'brand'}) | raw }}
           <div class="nav-collapse collapse">
             {{ menu | raw }}
+
+            <form class="navbar-search pull-left" action="">
+              <input type="text" class="search-query span2" placeholder="Filtro" name="filter" value="{{ ci.input.get('filter') }}">
+            </form>
+            <ul class="nav pull-right">
+              <li><a href="{{ base_url('logout') }}">Salir</a></li>
+              <li class="divider-vertical"></li>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Username <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                  <li><a href="#">Configuración</a></li>
+                  <li><a href="#">Perfil</a></li>
+                </ul>
+              </li>
+            </ul>
           </div>
         </div>
       </div>
     </div>
 
-  	<div id="container">
-  		<div id="content">{% block content %}{% endblock %}</div>
-  		<div id="footer">
-  			{% block footer %}
-  			<footer class="footer">
-  				<div class="container">
-  					<p class="pull-right"><a href="#">Back to top</a></p>
-  					<p>Designed and built with all the love in the world by <a href="http://twitter.com/mdo" target="_blank">@mdo</a> and <a href="http://twitter.com/fat" target="_blank">@fat</a>.</p>
-  					<p>Code licensed under <a href="http://www.apache.org/licenses/LICENSE-2.0" target="_blank">Apache License v2.0</a>, documentation under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a>.</p>
-            <p><a href="http://glyphicons.com">Glyphicons Free</a> licensed under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a>.</p>
-            <p>Page rendered in <strong>{{ elapsed_time }}</strong> seconds. Memory usage: <strong>{{ memory_usage }}</strong></p>
+    <div id="container">
+      <div id="content">{% block content %}{% endblock %}</div>
+      <div id="footer">
+       {% block footer %}
+       <footer class="footer">
+        <div class="container">
+         <p class="pull-right"><a href="#">Subir</a></p>
+         <p><strong>{{ anchor(ci.config.item('base_url'), ci.config.item('app_name')) | raw }}</strong></p>
+         <p>Tiempo de carga: <i>{{ elapsed_time }}</i> segundos. Uso de memoria: <i>{{ memory_usage }}</i>.</p>
 
+            {#
             <ul class="footer-links">
               <li><a href="http://blog.getbootstrap.com">Blog</a></li>
               <li class="muted">&middot;</li>
@@ -65,28 +79,29 @@
               <li class="muted">&middot;</li>
               <li><a href="https://github.com/twitter/bootstrap/wiki">Roadmap and changelog</a></li>
             </ul>
-  				</div>
-  			</footer>
-  			{% endblock %}
-  		</div>
-  	</div>
+            #}
+          </div>
+        </footer>
+        {% endblock %}
+      </div>
+    </div>
 
-  	<script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
-  	<script src="{{ base_url() }}assets/js/jquery.js"></script>
-  	<script src="{{ base_url() }}assets/js/google-code-prettify/prettify.js"></script>
-  	<script src="{{ base_url() }}assets/js/bootstrap-transition.js"></script>
-  	<script src="{{ base_url() }}assets/js/bootstrap-alert.js"></script>
-  	<script src="{{ base_url() }}assets/js/bootstrap-modal.js"></script>
-  	<script src="{{ base_url() }}assets/js/bootstrap-dropdown.js"></script>
-  	<script src="{{ base_url() }}assets/js/bootstrap-scrollspy.js"></script>
-  	<script src="{{ base_url() }}assets/js/bootstrap-tab.js"></script>
-  	<script src="{{ base_url() }}assets/js/bootstrap-tooltip.js"></script>
-  	<script src="{{ base_url() }}assets/js/bootstrap-popover.js"></script>
-  	<script src="{{ base_url() }}assets/js/bootstrap-button.js"></script>
-  	<script src="{{ base_url() }}assets/js/bootstrap-collapse.js"></script>
-  	<script src="{{ base_url() }}assets/js/bootstrap-carousel.js"></script>
-  	<script src="{{ base_url() }}assets/js/bootstrap-typeahead.js"></script>
-  	<script src="{{ base_url() }}assets/js/bootstrap-affix.js"></script>
-  	<script src="{{ base_url() }}assets/js/application.js"></script>
+    <script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+    <script src="{{ base_url() }}assets/js/jquery.js"></script>
+    <script src="{{ base_url() }}assets/js/google-code-prettify/prettify.js"></script>
+    <script src="{{ base_url() }}assets/js/bootstrap-transition.js"></script>
+    <script src="{{ base_url() }}assets/js/bootstrap-alert.js"></script>
+    <script src="{{ base_url() }}assets/js/bootstrap-modal.js"></script>
+    <script src="{{ base_url() }}assets/js/bootstrap-dropdown.js"></script>
+    <script src="{{ base_url() }}assets/js/bootstrap-scrollspy.js"></script>
+    <script src="{{ base_url() }}assets/js/bootstrap-tab.js"></script>
+    <script src="{{ base_url() }}assets/js/bootstrap-tooltip.js"></script>
+    <script src="{{ base_url() }}assets/js/bootstrap-popover.js"></script>
+    <script src="{{ base_url() }}assets/js/bootstrap-button.js"></script>
+    <script src="{{ base_url() }}assets/js/bootstrap-collapse.js"></script>
+    <script src="{{ base_url() }}assets/js/bootstrap-carousel.js"></script>
+    <script src="{{ base_url() }}assets/js/bootstrap-typeahead.js"></script>
+    <script src="{{ base_url() }}assets/js/bootstrap-affix.js"></script>
+    <script src="{{ base_url() }}assets/js/application.js"></script>
   </body>
   </html>

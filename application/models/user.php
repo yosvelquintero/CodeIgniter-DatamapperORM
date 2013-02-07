@@ -67,12 +67,12 @@ class User extends DataMapper {
 		'name' => array(
 			// example is required, and cannot be more than 120 characters long.
 			'rules' => array('required', 'trim', 'max_length' => 150),
-			'label' => 'Name'
+			'label' => 'Nombre'
 		),
 		'username' => array(
 			// example is required, and cannot be more than 120 characters long.
 			'rules' => array('required', 'trim', 'max_length' => 20, 'unique'),
-			'label' => 'Username'
+			'label' => 'Nombre de usuario'
 		),
 		'email' => array(
 			// example is required, and cannot be more than 120 characters long.
@@ -81,15 +81,15 @@ class User extends DataMapper {
 		),
 		'password' => array(
 			'rules' => array('required', 'min_length' => 3, 'max_length' => 40, 'encrypt'),
-			'label' => 'Password'
+			'label' => 'Contraseña'
 		),
 		'confirm_password' => array(
 			'rules' => array('required', 'encrypt', 'matches' => 'password', 'min_length' => 3, 'max_length' => 40),
-			'label' => 'Confirm password'
+			'label' => 'Confirmar contraseña'
 		),
 		'group' => array(
 			'rules' => array('required'),
-			'label' => 'Group'
+			'label' => 'Grupo'
 		)
 	);
 
@@ -99,7 +99,7 @@ class User extends DataMapper {
 	//   id descending (unless overridden)
 	// --------------------------------------------------------------------
 
-	// public $default_order_by = array('name', 'id' => 'desc');
+	public $default_order_by = array('id' => 'desc');
 
 	// --------------------------------------------------------------------
 

@@ -65,7 +65,8 @@ class Group extends DataMapper {
 
 	public $validation = array(
 		'name' => array(
-			'rules' => array('required', 'trim', 'unique', 'min_length' => 3, 'max_length' => 20)
+			'rules' => array('required', 'trim', 'unique', 'min_length' => 3, 'max_length' => 20),
+            'label' => 'Nombre'
 		)
 	);
 
@@ -75,7 +76,7 @@ class Group extends DataMapper {
 	//   id descending (unless overridden)
 	// --------------------------------------------------------------------
 
-	// public $default_order_by = array('name', 'id' => 'desc');
+	public $default_order_by = array('id' => 'desc');
 
 	// --------------------------------------------------------------------
 

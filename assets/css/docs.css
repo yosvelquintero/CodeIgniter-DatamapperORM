@@ -563,7 +563,7 @@ h2 + .row {
 
 /* Echo out a label for the example */
 .bs-docs-example:after {
-  content: "Example";
+  /*content: "CSS";*/
   position: absolute;
   top: -1px;
   left: -1px;

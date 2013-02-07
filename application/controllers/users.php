@@ -43,13 +43,12 @@ class Users extends Backend_Controller {
             ->include_related('group')
             ->limit($this->config->item('per_page'))
             ->offset($this->uri->segment(3))
-            ->order_by('id', 'DESC')
             ->get();
 
         $this->pagination->initialize($config);
 
 		return $this->twig->display('contents/users/index_view.html.twig', array(
-			'page_title' => 'Users > list',
+			'page_title' => 'Usuarios',
 			'menu' => $this->menu->render($this->config->item('bootstrap'), 'users', NULL, 'basic'),
 			'users' => $users,
             'total' => $total,
@@ -77,7 +76,7 @@ class Users extends Backend_Controller {
         }
 
 		return $this->twig->display('contents/users/form_view.html.twig', array(
-			'page_title' => 'Users > Create form',
+			'page_title' => 'Usuarios',
 			'menu' => $this->menu->render($this->config->item('bootstrap'), 'users', NULL, 'basic'),
 			'groups' => $g->get()->all_to_single_array('name'), // Get all to single array
 			'form_errors' => isset($errors) ? $errors : NULL,
@@ -112,7 +111,7 @@ class Users extends Backend_Controller {
         }
 
 		return $this->twig->display('contents/users/form_view.html.twig', array(
-			'page_title' => 'Users > Edit form',
+			'page_title' => 'Usuarios',
 			'menu' => $this->menu->render($this->config->item('bootstrap'), 'users', NULL, 'basic'),
 			'groups' => $g->get()->all_to_single_array('name'), // Get all to single array
 			'form_errors' => isset($errors) ? $errors : NULL,
@@ -132,15 +131,15 @@ class Users extends Backend_Controller {
 	{
 		$u->from_array($post_data, array('name', 'username', 'email', 'password', 'confirm_password'));
 
-		$g->where('id', $post_data['group'], TRUE)->limit(1)->get();
+		$g->where('id', $post_data['group'])->limit(1)->get();
 
         // Save user posted data
         if ( ! $u->save($g))
         	return $u->error->string;
         else {
-        	$word = $this->uri->segment(3) == 'edit' ? 'edited' : 'created';
+        	$word = $this->uri->segment(3) == 'edit' ? 'editado' : 'creado';
 
-        	$this->session->set_flashdata('message', 'User ' . ucfirst($u->username) . ' was ' . $word . '.');
+        	$this->session->set_flashdata('message', 'Registro con id ' . $u->id . ' fue ' . $word . ' correctamente.');
         	return redirect ('users/index');
         }
 
@@ -159,39 +158,15 @@ class Users extends Backend_Controller {
         $u = new User(); // User object
         $u->where('id', $id)->limit(1)->get();
 
-        $username = $u->username;
-
         if ( ! $u->exists())
             redirect('error_page'); // error page...
 
         if ($u->delete())
-            $this->session->set_flashdata('message', 'User ' . ucfirst($username) . ' was deleted.');
+            $this->session->set_flashdata('message', 'Registro con id ' . $id . ' fue borrado correctamente.');
 
         return redirect ('users/index');
     }
 
-    public function creator()
-    {
-        $u = new User();
-        $g = new Group();
-
-
-        for ($i=51; $i < 101; $i++) { 
-
-            $u->name = 'User name ' . $i;
-            $u->username = 'username' . $i;
-            $u->email = 'email' . $i . '@gmail.com';
-            $u->password = 'allcontrol';
-            $u->confirm_password = 'allcontrol';
-
-            $g->where('id', rand(1, 3))->limit(1)->get();
-
-            $u->save($g);
-
-            $g->clear();
-            $u->clear();
-        }
-    }
 }
 
 /* End of file users.php */

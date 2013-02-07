@@ -18,10 +18,13 @@
 
 $config['bootstrap'] = array();
 $config['bootstrap']['home'] = 'Home';
-$config['bootstrap']['get_started'] = 'Get started';
-$config['bootstrap']['scaffolding'] = 'Scaffolding';
-$config['bootstrap']['base_css'] = 'Base CSS';
-$config['bootstrap']['components'] = 'Components';
-$config['bootstrap']['javascript'] = 'JavaScript';
+// $config['bootstrap']['get_started'] = 'Get started';
+// $config['bootstrap']['scaffolding'] = 'Scaffolding';
+// $config['bootstrap']['base_css'] = 'Base CSS';
+// $config['bootstrap']['components'] = 'Components';
+// $config['bootstrap']['javascript'] = 'JavaScript';
 
-$config['bootstrap']['users'] = 'Users';
+$config['bootstrap']['messages'] = 'Mensajes (0)';
+$config['bootstrap']['companies'] = 'Empresas';
+$config['bootstrap']['categories'] = 'Categorías';
+$config['bootstrap']['users'] = 'Usuarios';

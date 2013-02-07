@@ -23,7 +23,7 @@ $cache = array (
         1 => 'trim',
         'max_length' => 150,
       ),
-      'label' => 'Name',
+      'label' => 'Nombre',
       'field' => 'name',
     ),
     'username' => 
@@ -35,7 +35,7 @@ $cache = array (
         'max_length' => 20,
         2 => 'unique',
       ),
-      'label' => 'Username',
+      'label' => 'Nombre de usuario',
       'field' => 'username',
     ),
     'email' => 
@@ -59,7 +59,7 @@ $cache = array (
         'max_length' => 40,
         1 => 'encrypt',
       ),
-      'label' => 'Password',
+      'label' => 'Contraseña',
       'field' => 'password',
     ),
     'confirm_password' => 
@@ -72,7 +72,7 @@ $cache = array (
         'min_length' => 3,
         'max_length' => 40,
       ),
-      'label' => 'Confirm password',
+      'label' => 'Confirmar contraseña',
       'field' => 'confirm_password',
     ),
     'group' => 
@@ -81,7 +81,7 @@ $cache = array (
       array (
         0 => 'required',
       ),
-      'label' => 'Group',
+      'label' => 'Grupo',
       'field' => 'group',
     ),
     'id' => 

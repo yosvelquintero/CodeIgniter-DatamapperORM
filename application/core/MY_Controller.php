@@ -2,11 +2,13 @@
 
 class MY_Controller extends CI_Controller
 {
+
 	function __construct()
 	{
 		parent::__construct();
 
-		$this->output->enable_profiler(TRUE); // Enabled profiler...
+		if (ENVIRONMENT == 'development') 
+            $this->output->enable_profiler(TRUE); // Enabled profiler...
 
 		// $user_id = $this->session->userdata('user_id');
 		// $this->data['user'] = $this->user_lib->get($user_id);

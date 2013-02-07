@@ -9,80 +9,73 @@
 	<header class="jumbotron subhead" id="overview">
 		<div class="container">
 			<h1>{{ page_title }}</h1>
-			<p class="lead">Fundamental HTML elements styled and enhanced with extensible classes.</p>
 		</div>
 	</header>
 
 	<div class="container">
 
 		<div class="row">
-
-					<!-- Forms
-					================================================== -->
-					<section id="forms">
-						<div class="page-header">
-							<h1>Forms</h1>
-						</div>
-
-						<h2>User form</h2>
-						<p>Here you can {{ anchor('users/index', 'list') | raw }} all users.</p>
-
-						{% if form_errors %}
-						<div class="alert alert-error">
-							<button type="button" class="close" data-dismiss="alert">×</button>
-							<h4>Warning!</h4> 
-							<br>
-							{{ form_errors | raw }}
-						</div>
-						{% endif %}
-						
-						{{ form_open('', {'class': 'bs-docs-example form-horizontal'}) | raw }}
-						<div class="control-group">
-							<label class="control-label" for="name">Name</label>
-							<div class="controls">
-								<input type="text" id="name" name="name" value="{{ value.name }}" placeholder="Name" required>
-							</div>
-						</div>
-						<div class="control-group">
-							<label class="control-label" for="username">Username</label>
-							<div class="controls">
-								<input type="text" id="username" name="username" value="{{ value.username }}" placeholder="Username" required>
-							</div>
-						</div>
-						<div class="control-group">
-							<label class="control-label" for="email">Email</label>
-							<div class="controls">
-								<input type="email" id="email" name="email" value="{{ value.email }}" placeholder="Email"  required>
-							</div>
-						</div>
-						<div class="control-group">
-							<label class="control-label" for="password">Password</label>
-							<div class="controls">
-								<input type="password" id="password" name="password" placeholder="Password" required>
-							</div>
-						</div>
-						<div class="control-group">
-							<label class="control-label" for="confirm_password">Confirm password</label>
-							<div class="controls">
-								<input type="password" id="confirm_password" name="confirm_password" placeholder="Confirm password">
-							</div>
-						</div>
-						<div class="control-group">
-							<label class="control-label" for="group">Group</label>
-							<div class="controls">
-								{{  form_dropdown('group', groups, value_group) | raw }}
-							</div>
-						</div>
-
-						<div class="control-group">
-							<div class="controls">
-								<button type="submit" class="btn btn-large btn-primary">Save!!</button>
-							</div>
-						</div>
-						{{ form_close() | raw }}
-
-					</section>
+			<section id="forms">
+				<div class="page-header">
+              		{% include 'templates/backend_page_header.html.twig' with {'uri_segment': ci.uri.segment(1)} %}
 				</div>
-			</div>
 
-		{% endblock %}
+				{% if form_errors %}
+				<div class="alert alert-error">
+					<button type="button" class="close" data-dismiss="alert">×</button>
+					<h4>Error!</h4> 
+					<br>
+					{{ form_errors | raw }}
+				</div>
+				{% endif %}
+
+				{{ form_open('', {'class': 'bs-docs-example form-horizontal'}) | raw }}
+				<div class="control-group">
+					<label class="control-label" for="name">Nombre</label>
+					<div class="controls">
+						<input type="text" id="name" name="name" value="{{ value.name }}" placeholder="Nombre">
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label" for="username">Nombre de usuario</label>
+					<div class="controls">
+						<input type="text" id="username" name="username" value="{{ value.username }}" placeholder="Nombre de usuario">
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label" for="email">Email</label>
+					<div class="controls">
+						<input type="email" id="email" name="email" value="{{ value.email }}" placeholder="Email" >
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label" for="password">Contraseña</label>
+					<div class="controls">
+						<input type="password" id="password" name="password" placeholder="Contraseña">
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label" for="confirm_password">Confirmar contraseña</label>
+					<div class="controls">
+						<input type="password" id="confirm_password" name="confirm_password" placeholder="Confirmar contraseña">
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label" for="group">Grupo</label>
+					<div class="controls">
+						{{  form_dropdown('group', groups, value_group) | raw }}
+					</div>
+				</div>
+
+				<div class="control-group">
+					<div class="controls">
+						<button type="submit" class="btn btn-primary">Guardar</button>
+					</div>
+				</div>
+				{{ form_close() | raw }}
+
+			</section>
+		</div>
+	</div>
+
+	{% endblock %}

@@ -52,7 +52,7 @@ $autoload['packages'] = array();
 |	$autoload['libraries'] = array('database', 'session', 'xmlrpc');
 */
 
-$autoload['libraries'] = array('database', 'datamapper', 'session', 'twig', 'Form_builder');
+$autoload['libraries'] = array('database', 'datamapper', 'session', 'twig'); // , 'Form_builder'
 
 
 /*
@@ -80,7 +80,7 @@ $autoload['helper'] = array('url', 'html', 'form');
 |
 */
 
-$autoload['config'] = array('menu');
+$autoload['config'] = array('application', 'menu');
 
 
 /*
